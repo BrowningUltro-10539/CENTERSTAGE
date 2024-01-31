@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Common;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -13,11 +14,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Auto.TrajectorySequenceFollowerCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeRunCommand;
-import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
+import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @Autonomous
-public class BLUE_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
+public class AutoTester extends LinearOpMode {
     private Robot robot;
     @Override
     public void runOpMode() {
@@ -25,43 +29,19 @@ public class BLUE_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
         this.robot = new Robot(hardwareMap, true);
 
         //start position
-        Pose2d startPose = new Pose2d(11.5, 62, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(-36, 62, Math.toRadians(-90));
         robot.driveSubsystem.setPoseEstimate(startPose);
         robot.reset();
 
         //Left tape
         TrajectorySequence toCenterTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(12, 42), Math.toRadians(-110))
-                .splineTo(new Vector2d(12, 15), Math.toRadians(-90))
+                .lineTo(new Vector2d(-36, 12))
                 .build();
-
-        //Center tape
-        TrajectorySequence toRightTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(12, 42), Math.toRadians(-110))
-                .splineTo(new Vector2d(11, 30), Math.toRadians(0))
-                .build();
-
-        //Right tape
-        TrajectorySequence toLeftTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .splineTo(new Vector2d(12, 42), Math.toRadians(-110))
-                .splineTo(new Vector2d(32, 30), Math.toRadians(0))
-                .build();
-
-        TrajectorySequence toRightBackdrop = robot.driveSubsystem.trajectorySequenceBuilder(toRightTape.end())
-                .splineTo(new Vector2d(49, 28.5), Math.toRadians(0))
-                .build();
-
-        TrajectorySequence toLeftBackdrop = robot.driveSubsystem.trajectorySequenceBuilder(toLeftTape.end())
-                .splineTo(new Vector2d(49, 41.5), Math.toRadians(0))
-                .build();
-
         TrajectorySequence toCenterBackdrop = robot.driveSubsystem.trajectorySequenceBuilder(toCenterTape.end())
-                .splineTo(new Vector2d(49, 35), Math.toRadians(0))
-                .build();
-
-        TrajectorySequence toPark = robot.driveSubsystem.trajectorySequenceBuilder(toCenterTape.end())
-                .splineTo(new Vector2d(28, 12), Math.toRadians(10))
-                .splineTo(new Vector2d(61, 59), Math.toRadians(0))
+                .lineTo(new Vector2d(-36, 10))
+                .turn(Math.toRadians(90))
+                .lineTo(new Vector2d(1, 10))
+                .lineTo(new Vector2d(1, 35))
                 .build();
 
         while (!isStarted() && !isStopRequested()) {
@@ -76,14 +56,16 @@ public class BLUE_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterTape),
-                        new WaitCommand(100),
-                        new ParallelCommandGroup(
-                                new IntakeRunCommand(robot.intake, -1, 1),
-                                new WaitCommand(1500),
-                                new IntakeRunCommand(robot.intake, 0, 1),
-                                new WaitCommand(1500),
-                                new TrajectorySequenceFollowerCommand(robot.driveSubsystem,toPark)
-                        )
+                        new IntakeRunCommand(robot.intake, -0.65, 5),
+                        new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterBackdrop),
+                        new LiftPositionCommand(robot.lift, 10, 200, 200, 2),
+                        new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)),
+                        new WaitCommand(500),
+                        new SequentialCommandGroup(
+                                new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.INTAKE)),
+                                new WaitCommand(500),
+                                new LiftPositionCommand(robot.lift, 0, 40, 50, 2)
+
                 )
         );
 
@@ -98,6 +80,8 @@ public class BLUE_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
 
             robot.intake.loop();
             robot.lift.loop();
+            robot.outtake.loop();
+
 
 
             robot.write();

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Common;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -14,9 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Auto.TrajectorySequenceFollowerCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeRunCommand;
-import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class BLUE_RIGHT_AUTONOMOUS_GUESS extends LinearOpMode {
     private Robot robot;
@@ -79,9 +77,9 @@ public class BLUE_RIGHT_AUTONOMOUS_GUESS extends LinearOpMode {
                         new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterTape),
                         new WaitCommand(100),
                         new ParallelCommandGroup(
-                                new IntakeRunCommand(robot.intake, -1),
+                                new IntakeRunCommand(robot.intake, -1, 1),
                                 new WaitCommand(1500),
-                                new IntakeRunCommand(robot.intake, 0),
+                                new IntakeRunCommand(robot.intake, 0, 1),
                                 new WaitCommand(1500),
                                 new TrajectorySequenceFollowerCommand(robot.driveSubsystem,toPark)
                         )

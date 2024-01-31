@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
-
 import java.util.ArrayList;
 import java.util.List;
 
