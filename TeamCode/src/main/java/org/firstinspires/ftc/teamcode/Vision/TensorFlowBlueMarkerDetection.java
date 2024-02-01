@@ -23,7 +23,7 @@ public class TensorFlowBlueMarkerDetection extends LinearOpMode {
     private VisionPortal visionPortal;
 
     private static final String[] LABELS = {
-            "Pixel",
+            "Box",
     };
 
     public enum MarkerState{LEFT, CENTER, RIGHT}
@@ -66,10 +66,10 @@ public class TensorFlowBlueMarkerDetection extends LinearOpMode {
 
     }
 
-    private void initTfod() {
+    public void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("BlueModel.tflite")
+                .setModelAssetName("CenterStageBlueModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
@@ -121,7 +121,7 @@ public class TensorFlowBlueMarkerDetection extends LinearOpMode {
     /**
      * Function to add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    public void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());

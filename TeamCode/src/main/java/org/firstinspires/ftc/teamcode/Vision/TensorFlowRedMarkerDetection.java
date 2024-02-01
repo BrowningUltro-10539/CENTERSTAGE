@@ -24,7 +24,7 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
     private VisionPortal visionPortal;
 
     private static final String[] LABELS = {
-            "Pixel",
+            "Box",
     };
 
     public enum MarkerState{LEFT, CENTER, RIGHT}
@@ -67,10 +67,10 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
 
     }
 
-    private void initTfod() {
+    public void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("RedMarkerModel.tflite")
+                .setModelAssetName("CenterStageRedModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
@@ -121,7 +121,7 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
     /**
      * Function to add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
+    public void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
@@ -143,6 +143,9 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
                 markerPos = TensorFlowBlueMarkerDetection.MarkerState.LEFT;
             }
         }
+
+
+
 
     }
 
