@@ -23,7 +23,7 @@ public class TensorFlowBlueMarkerDetection extends LinearOpMode {
     private VisionPortal visionPortal;
 
     private static final String[] LABELS = {
-            "Pixel",
+            "Box",
     };
 
     public enum MarkerState{LEFT, CENTER, RIGHT}
