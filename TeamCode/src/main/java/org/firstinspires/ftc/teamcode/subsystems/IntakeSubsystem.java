@@ -36,16 +36,16 @@ public class IntakeSubsystem extends SubsystemBase {
         this.isAuto = isAuto;
     }
     public void update(IntakeState state){
-        if (!isAuto)
-            switch(state) {
-                case INTAKE:
-                    intakeMotor.setPower(intakeSpeed);
-                    break;
-                case PUSH_OUT:
-                    intakeMotor.setPower(pushOutSpeed);
-                    break;
-                case PAUSE:
-                    intakeMotor.setPower(0);
+
+        switch(state) {
+            case INTAKE:
+                intakeMotor.setPower(intakeSpeed);
+                break;
+            case PUSH_OUT:
+                intakeMotor.setPower(pushOutSpeed);
+                break;
+            case PAUSE:
+                intakeMotor.setPower(0);
             }
     }
 

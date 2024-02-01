@@ -65,7 +65,7 @@ public class AutoTester extends LinearOpMode {
                                 new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.INTAKE)),
                                 new WaitCommand(500),
                                 new LiftPositionCommand(robot.lift, 0, 40, 50, 2)
-
+                        )
                 )
         );
 

@@ -15,10 +15,15 @@ public class DepositAndRetractCommand extends SequentialCommandGroup {
         super(
                 new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)),
                 new WaitCommand(500),
+                new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.BucketState.OPEN)),
                 new SequentialCommandGroup(
                         new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.INTAKE)),
                         new WaitCommand(500),
-                        new LiftPositionCommand(robot.lift, 0, 40, 50, 2)
+                        new ParallelCommandGroup(
+                                new LiftPositionCommand(robot.lift, 0, 40, 50, 2),
+                                new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.BucketState.CLOSED)
+                        )
+
                 )
         );
     }
