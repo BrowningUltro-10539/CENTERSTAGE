@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @TeleOp
 public class DriveOpmode extends CommandOpMode {
@@ -103,6 +104,10 @@ public class DriveOpmode extends CommandOpMode {
         }
 
         if(gamepad2.cross) {
+            schedule(new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)));
+        }
+
+        if(gamepad2.square){
             schedule(new DepositAndRetractCommand(robot));
         }
 

@@ -59,13 +59,7 @@ public class AutoTester extends LinearOpMode {
                         new IntakeRunCommand(robot.intake, -0.65, 5),
                         new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterBackdrop),
                         new LiftPositionCommand(robot.lift, 10, 200, 200, 2),
-                        new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)),
-                        new WaitCommand(500),
-                        new SequentialCommandGroup(
-                                new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.INTAKE)),
-                                new WaitCommand(500),
-                                new LiftPositionCommand(robot.lift, 0, 40, 50, 2)
-                        )
+                        new DepositAndRetractCommand(robot)
                 )
         );
 
