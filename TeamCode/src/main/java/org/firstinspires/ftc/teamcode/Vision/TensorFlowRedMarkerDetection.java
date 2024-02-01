@@ -70,7 +70,7 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
     private void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("RedMarkerModel.tflite")
+                .setModelAssetName("CenterStageRedModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
