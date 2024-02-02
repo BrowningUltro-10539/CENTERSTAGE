@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
@@ -18,7 +19,7 @@ public class Robot {
 
     public IntakeSubsystem intake;
     public LiftSubsystem lift;
-    //    public HangerSubsystem hanger;
+    public HangerSubsystem hanger;
 //    public HangerAngleSubsystem hangerAng;
     public OuttakeSubsystem outtake;
     public AirplaneSubsystem launcher;
@@ -40,6 +41,7 @@ public class Robot {
         outtake = new OuttakeSubsystem(hardwareMap, isAuto);
 //        hangerAng = new HangerAngleSubsystem(hardwareMap, isAuto);
         launcher = new AirplaneSubsystem(hardwareMap);
+        hanger = new HangerSubsystem(hardwareMap);
 
         if(isAuto){
             lift.lift.encoder.reset();
@@ -85,6 +87,7 @@ public class Robot {
 //        hangerAng.hangerAngleMotor.resetEncoder();
         launcher.update(AirplaneSubsystem.airplaneServoState.CLOSED);
         outtake.update(OuttakeSubsystem.ArmState.INTAKE);
+        hanger.update(HangerSubsystem.ServoState.DOWN);
     }
 
     public List<LynxModule> getControllers(){

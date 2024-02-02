@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Common;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
@@ -42,10 +44,14 @@ public class DriveOpmode extends CommandOpMode {
         robot.reset();
 // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("leftFront");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("leftRear");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("rightFront");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("rightRear");
+//        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("leftFront");
+        this.frontLeftMotor = hardwareMap.dcMotor.get("leftFront");
+//        DcMotor backLeftMotor = hardwareMap.dcMotor.get("leftRear");
+        this.backLeftMotor = hardwareMap.dcMotor.get("leftRear");
+//        DcMotor frontRightMotor = hardwareMap.dcMotor.get("rightFront");
+        this.frontRightMotor = hardwareMap.dcMotor.get("rightFront");
+//        DcMotor backRightMotor =
+        this.backRightMotor =hardwareMap.dcMotor.get("rightRear");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
@@ -109,6 +115,18 @@ public class DriveOpmode extends CommandOpMode {
 
         if(gamepad2.square){
             schedule(new DepositAndRetractCommand(robot));
+        }
+
+        if(gamepad2.circle){
+            schedule(new InstantCommand(() -> robot.hanger.update(HangerSubsystem.ServoState.UP)));
+        }
+
+        if(gamepad2.triangle){
+            schedule(new SequentialCommandGroup(
+                    new InstantCommand(() -> robot.hanger.update(HangerSubsystem.PullingState.PULL))
+                    )
+
+            );
         }
 
 
