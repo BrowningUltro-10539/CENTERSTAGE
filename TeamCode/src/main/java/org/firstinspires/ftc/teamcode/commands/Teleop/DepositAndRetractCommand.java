@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 public class DepositAndRetractCommand extends SequentialCommandGroup {
     public DepositAndRetractCommand(Robot robot){
         super(
-                //new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.BucketState.OPEN)),
+                new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.BucketState.OPEN)),
                 new WaitCommand(500),
                 new SequentialCommandGroup(
                         new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.INTAKE)),

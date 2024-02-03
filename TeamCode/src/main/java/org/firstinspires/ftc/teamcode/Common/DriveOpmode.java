@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.HangerRunCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
@@ -118,7 +119,10 @@ public class DriveOpmode extends CommandOpMode {
         }
 
         if(gamepad2.circle){
-            schedule(new InstantCommand(() -> robot.hanger.update(HangerSubsystem.ServoState.UP)));
+            schedule(new SequentialCommandGroup(
+                    new HangerRunCommand(robot.hanger, -1, 5),
+                    new InstantCommand(() -> robot.hanger.update(HangerSubsystem.ServoState.UP))
+            ));
         }
 
         if(gamepad2.triangle){
@@ -127,6 +131,14 @@ public class DriveOpmode extends CommandOpMode {
                     )
 
             );
+        }
+
+        if(gamepad2.dpad_right){
+            schedule(new SequentialCommandGroup(
+                    new LiftPositionCommand(robot.lift, 10, 200, 200, 2),
+                    new InstantCommand(() ->robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)),
+                    new LiftPositionCommand(robot.lift, 0, 200, 200, 2)
+            ));
         }
 
 
@@ -138,7 +150,7 @@ public class DriveOpmode extends CommandOpMode {
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
 
-        double botHeading = Math.toRadians(90) + NAV_X.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        double botHeading = Math.toRadians(-90) + NAV_X.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
 
         // Rotate the movement direction counter to the bot's rotation
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
