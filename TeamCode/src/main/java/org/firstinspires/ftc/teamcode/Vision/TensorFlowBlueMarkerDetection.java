@@ -69,7 +69,7 @@ public class TensorFlowBlueMarkerDetection extends LinearOpMode {
     public void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("CenterStageBlueModel.tflite")
+                .setModelAssetName("BlueModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)

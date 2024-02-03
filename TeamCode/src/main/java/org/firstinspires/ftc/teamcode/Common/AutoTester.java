@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Vision.TensorFlowBlueMarkerDetection;
 import org.firstinspires.ftc.teamcode.commands.Auto.TrajectorySequenceFollowerCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeRunCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
@@ -19,29 +20,53 @@ import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 @Autonomous
 public class AutoTester extends LinearOpMode {
     private Robot robot;
+
+    private static final boolean USE_WEBCAM = true;
+
+    private TfodProcessor tfod;
+
+    private VisionPortal visionPortal;
+
+    private static final String[] LABELS = {
+            "Box",
+    };
+
+    public enum MarkerState{LEFT, CENTER, RIGHT}
+
+    TensorFlowBlueMarkerDetection.MarkerState markerPos = TensorFlowBlueMarkerDetection.MarkerState.CENTER;
     @Override
     public void runOpMode() {
+
+
+        // Wait for the DS start button to be touched.
+        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+        telemetry.addData(">", "Touch Play to start OpMode");
+        telemetry.update();
+        waitForStart();
+
         CommandScheduler.getInstance().reset();
         this.robot = new Robot(hardwareMap, true);
 
         //start position
-        Pose2d startPose = new Pose2d(-36, 62, Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(12, -62, Math.toRadians(90));
         robot.driveSubsystem.setPoseEstimate(startPose);
         robot.reset();
 
         //Left tape
         TrajectorySequence toCenterTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(-36, 12))
+                .lineTo(new Vector2d(12, -12))
                 .build();
         TrajectorySequence toCenterBackdrop = robot.driveSubsystem.trajectorySequenceBuilder(toCenterTape.end())
-                .lineTo(new Vector2d(-36, 10))
-                .turn(Math.toRadians(90))
-                .lineTo(new Vector2d(1, 10))
-                .lineTo(new Vector2d(1, 35))
+                .lineTo(new Vector2d(12, -10))
+                .turn(Math.toRadians(-90))
+                .lineTo(new Vector2d(50, -10))
+                .lineTo(new Vector2d(50, -35))
                 .build();
 
         while (!isStarted() && !isStopRequested()) {
@@ -56,7 +81,7 @@ public class AutoTester extends LinearOpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterTape),
-                        new IntakeRunCommand(robot.intake, -0.65, 5),
+                        new IntakeRunCommand(robot.intake, -0.58, 3),
                         new TrajectorySequenceFollowerCommand(robot.driveSubsystem, toCenterBackdrop),
                         new LiftPositionCommand(robot.lift, 10, 200, 200, 2),
                         new InstantCommand(() -> robot.outtake.update(OuttakeSubsystem.ArmState.RELEASE)),
@@ -92,4 +117,5 @@ public class AutoTester extends LinearOpMode {
         }
 
     }
+
 }

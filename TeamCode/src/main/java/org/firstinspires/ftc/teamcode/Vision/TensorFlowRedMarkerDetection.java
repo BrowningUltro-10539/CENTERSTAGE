@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Vision;
 
 import android.util.Size;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@TeleOp
+@Autonomous
 public class TensorFlowRedMarkerDetection extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;
@@ -24,7 +24,7 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
     private VisionPortal visionPortal;
 
     private static final String[] LABELS = {
-            "Box",
+            "Red Team Marker",
     };
 
     public enum MarkerState{LEFT, CENTER, RIGHT}
@@ -70,7 +70,7 @@ public class TensorFlowRedMarkerDetection extends LinearOpMode {
     public void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("CenterStageRedModel.tflite")
+                .setModelAssetName("RedMarkerModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
