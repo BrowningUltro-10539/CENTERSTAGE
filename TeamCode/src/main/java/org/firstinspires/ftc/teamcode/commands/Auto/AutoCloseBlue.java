@@ -41,12 +41,12 @@ public class AutoCloseBlue extends LinearOpMode {
     private RedPipeline pipeline;
 
     private static final String[] LABELS = {
-            "Red Team Marker",
+            "Box",
     };
 
     public enum MarkerState {LEFT, CENTER, RIGHT}
 
-    MarkerState markerPos = MarkerState.CENTER;
+    MarkerState markerPos;
 
     @Override
     public void runOpMode() {
@@ -183,7 +183,7 @@ public class AutoCloseBlue extends LinearOpMode {
     public void initTfod() {
 
         tfod = new TfodProcessor.Builder()
-                .setModelAssetName("RedMarkerModel.tflite")
+                .setModelAssetName("BlueModel.tflite")
 
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
@@ -222,7 +222,7 @@ public class AutoCloseBlue extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.50f);
+        tfod.setMinResultConfidence(0.80f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
