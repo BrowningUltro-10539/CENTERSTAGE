@@ -46,7 +46,7 @@ public class AutoCloseRed extends LinearOpMode {
 
     public enum MarkerState {LEFT, CENTER, RIGHT}
 
-    MarkerState markerPos;
+    MarkerState markerPos = MarkerState.CENTER;
 
     @Override
     public void runOpMode() {

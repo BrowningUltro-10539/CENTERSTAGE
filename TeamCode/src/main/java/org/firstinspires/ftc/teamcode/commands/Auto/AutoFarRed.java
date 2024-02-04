@@ -47,7 +47,7 @@ public class AutoFarRed extends LinearOpMode {
 
     public enum MarkerState {LEFT, CENTER, RIGHT}
 
-    MarkerState markerPos;
+    MarkerState markerPos = MarkerState.CENTER;
 
     @Override
     public void runOpMode() {

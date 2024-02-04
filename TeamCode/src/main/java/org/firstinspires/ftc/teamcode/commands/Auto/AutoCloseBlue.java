@@ -46,7 +46,7 @@ public class AutoCloseBlue extends LinearOpMode {
 
     public enum MarkerState {LEFT, CENTER, RIGHT}
 
-    MarkerState markerPos;
+    MarkerState markerPos = MarkerState.CENTER;
 
     @Override
     public void runOpMode() {
@@ -62,13 +62,12 @@ public class AutoCloseBlue extends LinearOpMode {
 
         //Center tape
         TrajectorySequence toCenterTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(12, 12))
+                .lineTo(new Vector2d(12, 15))
                 .build();
         TrajectorySequence toCenterBackdrop = robot.driveSubsystem.trajectorySequenceBuilder(toCenterTape.end())
-                .lineTo(new Vector2d(12, 4.5))
                 .turn(Math.toRadians(90))
-                .lineTo(new Vector2d(50, 10))
-                .lineTo(new Vector2d(50, 37.4))
+                .lineTo(new Vector2d(50, 15))
+                .lineTo(new Vector2d(50, 36.4))
                 .build();
 
         //Right tape
