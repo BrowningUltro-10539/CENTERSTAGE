@@ -52,7 +52,7 @@ public class AutoFarRed extends LinearOpMode {
         this.robot = new Robot(hardwareMap, true);
 
         //start position
-        Pose2d startPose = new Pose2d(-36, -62, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-36, -62, Math.toRadians(90));
         robot.driveSubsystem.setPoseEstimate(startPose);
         robot.reset();
 
@@ -70,6 +70,7 @@ public class AutoFarRed extends LinearOpMode {
         //Right tape
         TrajectorySequence toRightTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
                 .lineTo(new Vector2d(-36, -30))
+                .lineTo(new Vector2d(-34, -30))
                 .build();
         TrajectorySequence toRightPark = robot.driveSubsystem.trajectorySequenceBuilder(toRightTape.end())
                 .turn(Math.toRadians(90))
@@ -81,6 +82,7 @@ public class AutoFarRed extends LinearOpMode {
         TrajectorySequence toLeftTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
                 .lineTo(new Vector2d(-36, -30))
                 .turn(Math.toRadians(-90))
+                .lineTo(new Vector2d(-38, -30))
                 .build();
         TrajectorySequence toLeftPark = robot.driveSubsystem.trajectorySequenceBuilder(toLeftTape.end())
                 .lineTo(new Vector2d(-36, -12))
