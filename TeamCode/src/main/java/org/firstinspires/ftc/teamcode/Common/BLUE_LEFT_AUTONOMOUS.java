@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@Autonomous
+//@Autonomous
 public class BLUE_LEFT_AUTONOMOUS extends LinearOpMode {
 
     private Robot robot;

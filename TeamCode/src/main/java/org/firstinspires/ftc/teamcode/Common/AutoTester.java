@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous
+
 public class AutoTester extends LinearOpMode {
     private Robot robot;
 

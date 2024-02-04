@@ -20,7 +20,7 @@ public class RED_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
 
     private Robot robot;
 
-    @Override
+//    @Override
     public void runOpMode(){
         CommandScheduler.getInstance().reset();
         this.robot = new Robot(hardwareMap, true);

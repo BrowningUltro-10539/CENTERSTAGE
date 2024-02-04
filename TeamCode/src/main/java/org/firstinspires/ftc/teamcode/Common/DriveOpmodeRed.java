@@ -18,7 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.HangerRunCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
-import org.firstinspires.ftc.teamcode.commands.MecanumDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Teleop.DepositAndRetractCommand;
 import org.firstinspires.ftc.teamcode.subsystems.AirplaneSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.HangerSubsystem;
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.OuttakeSubsystem;
 
 @TeleOp
-public class DriveOpmode extends CommandOpMode {
+public class DriveOpmodeRed extends CommandOpMode {
     private Robot robot;
 
     private NavxMicroNavigationSensor NAV_X;
@@ -120,7 +119,7 @@ public class DriveOpmode extends CommandOpMode {
 
         if(gamepad2.circle){
             schedule(new SequentialCommandGroup(
-                    new HangerRunCommand(robot.hanger, -1, 5),
+                    new HangerRunCommand(robot.hanger, 1, 3),
                     new InstantCommand(() -> robot.hanger.update(HangerSubsystem.ServoState.UP))
             ));
         }
@@ -129,8 +128,9 @@ public class DriveOpmode extends CommandOpMode {
             schedule(new SequentialCommandGroup(
                     new InstantCommand(() -> robot.hanger.update(HangerSubsystem.PullingState.PULL))
                     )
-
             );
+        }else{
+            schedule(new InstantCommand(()-> robot.hanger.update(HangerSubsystem.PullingState.WAIT)));
         }
 
         if(gamepad2.dpad_right){

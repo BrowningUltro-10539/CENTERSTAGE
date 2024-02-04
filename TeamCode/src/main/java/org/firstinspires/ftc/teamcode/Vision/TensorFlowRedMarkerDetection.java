@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous
+@TeleOp
 public class TensorFlowRedMarkerDetection extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;

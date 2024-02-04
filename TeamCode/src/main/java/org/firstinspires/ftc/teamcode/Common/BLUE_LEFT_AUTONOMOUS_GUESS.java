@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.commands.IntakeRunCommand;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 
-@Autonomous
+//@Autonomous
 public class BLUE_LEFT_AUTONOMOUS_GUESS extends LinearOpMode {
     private Robot robot;
     @Override

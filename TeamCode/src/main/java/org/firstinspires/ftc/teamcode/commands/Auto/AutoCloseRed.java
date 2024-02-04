@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.Vision.RedPipeline;
 import org.firstinspires.ftc.teamcode.Vision.TensorFlowBlueMarkerDetection;
 import org.firstinspires.ftc.teamcode.commands.IntakeRunCommand;
 import org.firstinspires.ftc.teamcode.commands.LiftPositionCommand;
@@ -37,6 +38,7 @@ public class AutoCloseRed extends LinearOpMode {
     private TfodProcessor tfod;
 
     private VisionPortal visionPortal;
+    private RedPipeline pipeline;
 
     private static final String[] LABELS = {
             "Red Team Marker",
@@ -44,7 +46,7 @@ public class AutoCloseRed extends LinearOpMode {
 
     public enum MarkerState {LEFT, CENTER, RIGHT}
 
-    MarkerState markerPos = MarkerState.RIGHT;
+    MarkerState markerPos = MarkerState.CENTER;
 
     @Override
     public void runOpMode() {
