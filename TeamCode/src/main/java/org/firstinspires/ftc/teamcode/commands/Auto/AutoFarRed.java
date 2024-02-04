@@ -63,9 +63,10 @@ public class AutoFarRed extends LinearOpMode {
 
         //Center tape
         TrajectorySequence toCenterTape = robot.driveSubsystem.trajectorySequenceBuilder(startPose)
-                .lineTo(new Vector2d(-36, -12))
+                .lineTo(new Vector2d(-36, -15))
                 .build();
         TrajectorySequence toCenterPark = robot.driveSubsystem.trajectorySequenceBuilder(toCenterTape.end())
+                .lineTo(new Vector2d(-36, -10))
                 .turn(Math.toRadians(-90))
                 .lineTo(new Vector2d(55, -12))
                 .build();

@@ -23,10 +23,10 @@ public class HangerSubsystem extends CommandBase {
     public void update(ServoState state){
         switch (state){
             case UP:
-                setHangerServo(-0.8);
+                setHangerServo(0);
                 break;
             case DOWN:
-                setHangerServo(0.2);
+                setHangerServo(0.37);
                 break;
         }
     }
